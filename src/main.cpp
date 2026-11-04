@@ -22,8 +22,8 @@ struct Config {
 } cfg;
 
 const unsigned long WIFI_TIMEOUT_MS = 15000;
-const char* AP_SSID = "EmlaLock-Setup";
-const char* AP_PASSWORD = "EmlaLock-Setup";
+const char* AP_SSID = "emlalock";
+const char* AP_PASSWORD = "emlalock";
 const IPAddress AP_IP(192, 168, 4, 1);
 const IPAddress AP_GATEWAY(192, 168, 4, 1);
 const IPAddress AP_SUBNET(255, 255, 255, 0);
@@ -57,7 +57,7 @@ const char INDEX_HTML[] PROGMEM = R"HTML(
 <section id="setup" class="card hidden">
   <div class="topline"><h2>Setup</h2><button class="secondary" type="button" onclick="scanWifi()" id="scanTop">Scan Wi-Fi</button></div>
   <button id="settingsBack" type="button" class="secondary hidden" onclick="backToDashboard()" style="margin-bottom:12px">Back</button>
-  <div id="apInfo" class="notice hidden">Setup network is active. Connect to <b>EmlaLock-Setup</b> with password <b>EmlaLock-Setup</b>, then open <b>192.168.4.1</b>.</div>
+  <div id="apInfo" class="notice hidden">Setup network is active. Connect to <b>emlalock</b> with password <b>emlalock</b>, then open <b>192.168.4.1</b>.</div>
   <p id="wifiInfo" class="muted small"></p>
 
   <h3>Appearance</h3>
