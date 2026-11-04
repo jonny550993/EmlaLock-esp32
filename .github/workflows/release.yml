@@ -7,6 +7,8 @@ on:
     paths:
       - src/update_manager.h
       - src/update_manager.cpp
+      - platformio.ini
+      - partitions/esp32c3_ota.csv
       - .github/workflows/release.yml
   workflow_dispatch:
     inputs:
