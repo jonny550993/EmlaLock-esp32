@@ -53,6 +53,8 @@ The device checks the latest release at:
 
 `https://github.com/jonny550993/EmlaLock-esp32/releases/latest`
 
+**Important:** this repository is currently private. GitHub's unauthenticated release API cannot serve its private releases to ESP32 devices, so OTA checks will not work while the repository remains private. Do not make the repository public just to enable OTA without first reviewing its contents and history. Use a separate public release repository or another authenticated firmware distribution design if device-side OTA is required.
+
 Release asset names must follow these patterns:
 
 - `EmlaLock-X.Y.Z-esp32.bin`
