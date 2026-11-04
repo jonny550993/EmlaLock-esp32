@@ -1,4 +1,5 @@
 #include "update_manager.h"
+#include <WiFi.h>
 #include <WebServer.h>
 #include <WiFiClientSecure.h>
 #include <HTTPClient.h>
