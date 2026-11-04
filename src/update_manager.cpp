@@ -76,15 +76,12 @@ static bool fetchLatest(){
   if(deserializeJson(doc,body))return false;
   latestVersion=normalizeVersion(doc["tag_name"].as<String>());
   String wanted=targetAssetName();
-  String fallback;
   JsonArray assets=doc["assets"].as<JsonArray>();
   for(JsonObject asset:assets){
     String name=asset["name"].as<String>();
     String url=asset["browser_download_url"].as<String>();
     if(name==wanted){latestUrl=url;break;}
-    if(name.endsWith("-esp32.bin"))fallback=url;
   }
-  if(latestUrl.length()==0)latestUrl=fallback;
   return latestVersion.length()>0&&latestUrl.length()>0;
 }
 
