@@ -7,7 +7,7 @@
 
 extern WebServer server;
 
-static const char* UPDATE_API="https://api.github.com/repos/walterz930/EmlaLock-esp32/releases/latest";
+static const char* UPDATE_API="https://api.github.com/repos/jonny550993/EmlaLock-esp32/releases/latest";
 static String latestVersion;
 static String latestUrl;
 static bool managerReady=false;
