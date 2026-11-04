@@ -401,6 +401,7 @@ window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{
 window.addEventListener('load',load);
 setInterval(()=>{if(!$('dash').classList.contains('hidden'))renderTimeCounters()},1000);
 setInterval(()=>{if(!$('dash').classList.contains('hidden'))refresh()},30000);
+initTheme();
 </script>
 </body>
 </html>
@@ -475,7 +476,7 @@ void handleConfigPost(){
   if(deserializeJson(d,server.arg("plain"))){server.send(400,"application/json",R"({"ok":false,"error":"Invalid JSON"})");return;}
   String role=d["role"]|"";String ssid=d["ssid"]|"";String pass=d["wifiPass"]|"";String uid=d["userId"]|"";String key=d["apiKey"]|"";String hkey=d["holderApiKey"]|"";
   if(role!="wearer"&&role!="holder"&&role!="alone"){server.send(400,"application/json",R"({"ok":false,"error":"Invalid role"})");return;}
-  if(cfg.role.length()&&role!=cfg.role){server.send(409,"application/json",R"({\"ok\":false,\"error\":"Role is locked. Use Clear credentials before changing role."})");return;}
+  if(cfg.role.length()&&role!=cfg.role){server.send(409,"application/json",R"({"ok":false,"error":"Role is locked. Use Clear credentials before changing role."})");return;}
   if(cfg.apiKey.length()&&key.length()){server.send(409,"application/json",R"({"ok":false,"error":"Wearer API key is locked. Use Clear credentials before changing it."})");return;}
   if(cfg.holderApiKey.length()&&hkey.length()){server.send(409,"application/json",R"({"ok":false,"error":"Key Holder API key is locked. Use Clear credentials before changing it."})");return;}
   if(!ssid.length())ssid=cfg.wifiSsid;if(!ssid.length()){server.send(400,"application/json",R"({"ok":false,"error":"Wi-Fi SSID is required"})");return;}
