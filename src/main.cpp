@@ -479,7 +479,13 @@ void handleConfigPost(){
   if(cfg.role.length()&&role!=cfg.role){server.send(409,"application/json",R"({"ok":false,"error":"Role is locked. Use Clear credentials before changing role."})");return;}
   if(cfg.apiKey.length()&&key.length()){server.send(409,"application/json",R"({"ok":false,"error":"Wearer API key is locked. Use Clear credentials before changing it."})");return;}
   if(cfg.holderApiKey.length()&&hkey.length()){server.send(409,"application/json",R"({"ok":false,"error":"Key Holder API key is locked. Use Clear credentials before changing it."})");return;}
-  if(!ssid.length())ssid=cfg.wifiSsid;if(!ssid.length()){server.send(400,"application/json",R"({"ok":false,"error":"Wi-Fi SSID is required"})");return;}
+  if (!ssid.length()) {
+    ssid = cfg.wifiSsid;
+  }
+  if (!ssid.length()) {
+    server.send(400, "application/json", R"({"ok":false,"error":"Wi-Fi SSID is required"})");
+    return;
+  }
   if(!uid.length()||(!key.length()&&!cfg.apiKey.length())){server.send(400,"application/json",R"({"ok":false,"error":"Wearer User ID and API key are required"})");return;}
   if(role=="holder"&&!hkey.length()&&!cfg.holderApiKey.length()){server.send(400,"application/json",R"({"ok":false,"error":"Holder API key is required for Key Holder mode"})");return;}
   if(!pass.length()&&cfg.wifiSsid!=ssid){server.send(400,"application/json",R"({"ok":false,"error":"Wi-Fi password is required for a new network"})");return;}
