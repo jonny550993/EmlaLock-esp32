@@ -7,55 +7,71 @@ A standalone ESP32 web dashboard for controlling and monitoring an EmlaLock sess
 - Wearer, Key Holder, and Alone modes.
 - Live Time Passed and Time Left counters.
 - Add or subtract session time where permitted.
-- Mobile-friendly interface hosted directly by the ESP32.
+- Responsive, dark-first dashboard with light and system theme options.
 - Wi-Fi scanning, saved-network recovery, and local setup access point.
 - Credentials stored locally in ESP32 NVS, not in the repository.
 - Role changes locked until credentials are cleared.
-- OTA firmware updates from GitHub releases.
+- OTA firmware updates from this repository's GitHub releases.
+- CI builds for all supported board targets.
 
 ## Supported boards
 
-- ESP32
-- ESP32-C3
-- ESP32-S2
-- ESP32-S3
+| Board | PlatformIO environment |
+| --- | --- |
+| ESP32 | `esp32dev` |
+| ESP32-C3 | `esp32-c3-devkitm-1` |
+| ESP32-S2 | `esp32-s2-saola-1` |
+| ESP32-S3 | `esp32-s3-devkitc-1` |
 
 ## Setup
 
 1. Flash the firmware for your board.
 2. Connect to the `EmlaLock-Setup` Wi-Fi network using password `EmlaLock-Setup`.
-3. Open `192.168.4.1`.
+3. Open `http://192.168.4.1`.
 4. Select Wearer, Key Holder, or Alone.
 5. Enter Wi-Fi and EmlaLock credentials.
 6. Save and connect.
 
-If the saved Wi-Fi is unavailable, the setup access point is started again for recovery.
+If the saved Wi-Fi is unavailable, the setup access point is started again for recovery. When editing settings, leaving a saved password or API-key field blank keeps the existing stored value.
 
-When editing existing settings, leaving a saved password or API-key field blank keeps the existing stored value.
+## Build locally
 
-## Building
-
-The project uses PlatformIO, the Arduino framework, and ArduinoJson 7.
-
-Build the environment matching your board, for example:
+Install [PlatformIO Core](https://platformio.org/install/cli), then run:
 
 ```bash
 pio run -e esp32dev
+pio run -e esp32-c3-devkitm-1
+pio run -e esp32-s2-saola-1
+pio run -e esp32-s3-devkitc-1
 ```
 
-## Releases
+GitHub Actions builds all four environments on pushes and pull requests. Release builds are created manually from the Release workflow and attach one firmware binary per supported board.
 
-Release builds contain firmware binaries for all four supported board families. Releases are created manually from the GitHub Actions release workflow.
+## OTA updates
 
-## Security
+The device checks the latest release at:
+
+`https://github.com/jonny550993/EmlaLock-esp32/releases/latest`
+
+The repository is public, so the firmware can retrieve release metadata and assets without GitHub authentication. OTA updates still require the device's board-specific binary to be attached to a published release.
+
+Release asset names must follow these patterns:
+
+- `EmlaLock-X.Y.Z-esp32.bin`
+- `EmlaLock-X.Y.Z-esp32c3.bin`
+- `EmlaLock-X.Y.Z-esp32s2.bin`
+- `EmlaLock-X.Y.Z-esp32s3.bin`
+
+## Security notes
 
 - EmlaLock credentials are stored locally in ESP32 NVS and are not committed to GitHub.
-- The setup access point is protected with WPA2.
-- HTTPS currently uses `WiFiClientSecure::setInsecure()` for broad ESP32 compatibility.
-- Do not expose the ESP32 directly to the public internet without appropriate authentication and transport security.
+- The setup access point uses WPA2, but its default password is documented for first-time setup. Change the firmware constant before deployment if untrusted people could reach the setup network.
+- HTTPS currently uses `WiFiClientSecure::setInsecure()` for compatibility. This disables certificate verification and is not suitable for hostile networks; certificate validation should be configured before using the device on untrusted networks.
+- The local HTTP dashboard currently has no user authentication. Keep the device on a trusted private network and do not expose port 80 or the setup access point to the public internet.
+- API credentials are currently sent to the EmlaLock API in query parameters to match the existing API integration. Avoid sharing device logs or network traces.
+
+This project is not a certified security product. Review the deployment environment and hardware before use.
 
 ## EmlaLock API
-
-This project communicates with the EmlaLock API for session information and time controls.
 
 API documentation: https://about.emlalock.com/docs/api/
